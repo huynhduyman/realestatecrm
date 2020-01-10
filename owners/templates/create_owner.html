@@ -9,7 +9,7 @@
 {% endblock %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{% url 'owners:list' %}">Owners</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'owners:list' %}">Chủ Nhà</a></li>
     <li class="breadcrumb-item active">{% if owner_obj %}Edit{% else %}Create{% endif %}</li>
   </ol>
 </nav>
@@ -22,7 +22,7 @@
       <div class="card">
         <div class="card-body">
           <div class="card-title text-center">
-            {% if owner_obj %}EDIT{% else %}CREATE{% endif %} ACCOUNT
+            {% if owner_obj %}SỬA{% else %}TẠO{% endif %} CHỦ NHÀ
           </div>
           <div class="row marl">
             <div class="col-md-4">
