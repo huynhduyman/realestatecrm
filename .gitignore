@@ -2,6 +2,7 @@
 *~
 *.swo
 *.swp
+*.log
 db.sqlite3
 media
 media-images
@@ -15,7 +16,7 @@ ref.css
 ref.css.map
 .coverage
 crm/dev_settings\.py
-env
+venv
 docs/build
 celerybeat-schedule
 local_settings.py

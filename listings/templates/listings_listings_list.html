@@ -1,0 +1,238 @@
+{% extends 'sales/base.html' %}
+{% load staticfiles %}
+{% load paginate %}
+{% load thumbnail %}
+{% block extralinks %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+    <style>
+        .table_container_row .card .card-body table tbody .due-date td {
+            color: red;
+        }
+
+        .form-group label {
+            font-weight: 800;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <!-- main_container starts here -->
+    <div class="main_container">
+        <!-- heading_create starts here -->
+        <div class="row marl">
+            <div class="col-lg-12 text-right">
+      <span class="d-inline"><a class="primary_btn"><i
+              class="fa fa-plus"></i> Add
+          New listing</a></span>
+            </div>
+        </div>
+        <!-- heading_create ends here -->
+        <div class="table_container_row row marl ">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="panel-heading-list card-title text-right">
+            <span class="total_count float-left">Listings - {% if show_pageitems %} {% show_pageitems %}{% else %}
+                {{ listings|length }}{% endif %}</span>
+                            <span class="filter_toggle ">
+              <a href="#" class="primary_btn"><i class="fas fa-filter"></i></a>
+            </span>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table ">
+                                <thead>
+                                {% if listings|length > 0 %}
+                                    <tr>
+                                        <th width="5%">S.No</th>
+                                        <th width="15%">Name</th>
+                                        <th width="5%">Internal roads</th>
+                                        <th width="5%">Floor</th>
+                                        <th width="10%">Phone</th>
+                                        <th width="10%">Price</th>
+                                        <th width="10%">Predict</th>
+                                        <th width="25%">Address</th>
+                                        <th width="10%">Assigned To</th>
+                                    </tr>
+                                {% endif %}
+                                </thead>
+                                <tbody>
+                                {% if per_page %}
+                                    {% paginate per_page listings %}
+                                {% else %}
+                                    {% paginate 10 listings %}
+                                {% endif %}
+                                {% for listing in listings %}
+                                    <tr id="listing_{{ listing.id }}" class="text-center">
+                                        <td scope="row">{{ forloop.counter }}</td>
+                                        <td>{% if listing.name %}<a href="#" data-toggle="modal"
+                                                                              data-target="#exampleModalCenter_listing{{ listing.id }}">{{ listing.name }}</a>{% endif %}
+                                        </td>
+                                        <td>
+                                            {% if listing.internal_roads %}
+                                                {{ listing.internal_roads }}
+                                            {% else %}
+                                                None
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ listing.tang }}</td>
+                                        <td>{{ listing.mobile }}</td>
+
+                                        <td>{{ listing.gia }}</td>
+                                        <td>{{ listing.predict }}</td>
+                                        <td>{{ listing.address }}</td>
+                                        <td></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% ifequal listings|length 0 %}
+                            <h6 class="text-center">No listings Found</h6>
+                        {% endifequal %}
+                        <div class="text-center row marl">
+                            {% show_pages %}
+                        </div>
+                    </div>
+                </div>
+                <br clear="all">
+            </div>
+        </div>
+        <!-- accounts list start -->
+        <!-- accounts list end -->
+    </div>
+    <!-- main_container ends here -->
+
+    {% for listing in listings %}
+        <div class="modal fade" id="exampleModalCenter_listing{{ listing.id }}" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">{{ listing.name }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- ... -->
+                        <div class="" id="">
+                            <div class="">
+                                <div class="col-md-12" id="opacity_block">
+                                    <div class="card">
+                                        <div class="card-body" id="datashow" style="margin: 0; padding: 0;">
+                                            <div class="card-title text-right">
+                                                <h5>
+                                                    <span style="margin-top: 0px"></span>
+                                                </h5>
+                                            </div>
+                                            <div class="row marl">
+                                                <div class="col-md-4">
+                                                    {% if listing.name %}
+                                                        <div class="filter_col col-md-12" id="iname">
+                                                            <div class="form-group">
+                                                                <label class="acc_field_label" for="id_name"
+                                                                       data-name="name">Title</label>
+                                                                <div class="account_field" id="account_name"
+                                                                     data-name="name">{{ listing.name }}</div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                    {% if listing.internal_roads %}
+                                                        <div class="filter_col col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="acc_field_label" for="id_phone"
+                                                                       data-name="name">Internal roads</label>
+                                                                <div class="account_field" id="account_phone"
+                                                                     data-name="name">{{ listing.internal_roads }}</div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                    {% if listing.floors %}
+                                                        <div class="filter_col col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="acc_field_label" for="id_status"
+                                                                       data-name="name">Floors</label>
+                                                                <div class="account_field" id="account_status"
+                                                                     data-name="name">{{ listing.floors }}</div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-md-4">
+                                                    {% if listing.acreage %}
+                                                        <div class="filter_col col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="acc_field_label" for="id_due_date"
+                                                                       data-name="name">Acreage</label>
+                                                                <div class="account_field" id="account_email"
+                                                                     data-name="name">{{ listing.acreage }}</div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                    {% if listing.address %}
+                                                        <div class="filter_col col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="acc_field_label" for="id_email"
+                                                                       data-name="name">Address</label>
+                                                                <div class="account_field" id="account_email"
+                                                                     data-name="name">{{ listing.address }}</div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                    {% if listing.gia %}
+                                                        <div class="filter_col col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="acc_field_label" for="id_website"
+                                                                       data-name="name">Price</label>
+                                                                <div class="account_field" id="account_website"
+                                                                         data-name="name">{{ listing.gia }}</div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-md-4">
+                                                    {% if listing.mobile %}
+                                                        <div class="filter_col col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="acc_field_label" for="id_website"
+                                                                       data-name="name">Mobile</label>
+                                                                <div class="account_field" id="account_website"
+                                                                         data-name="name">
+                                                                        {{ listing.mobile }}
+                                                                    </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-md-12">
+                                                    {% if listing.mota %}
+                                                        <div class="filter_col col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="acc_field_label" for="id_website"
+                                                                       data-name="name">Description123</label>
+                                                                <div class="account_field" id="account_website"
+                                                                         data-name="name">
+                                                                        {{ listing.mota }}
+                                                                    </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div> -->
+            </div>
+        </div>
+
+
+    {% endfor %}
+{% endblock %}
